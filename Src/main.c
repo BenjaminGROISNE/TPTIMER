@@ -6,6 +6,7 @@
  * 					 simple application to test and debug
  ******************************************************************************
  */
+
 #include "main.h"
 #include <stdint.h>
 #include "stm32f4xx.h"
@@ -23,8 +24,30 @@ void TIM2_set_pwm(uint32_t duty){
 __WFI();
 }
 
+void init(){
+	//Reset GPIO
+	RCC_AHB1RSTR =  RCC_AHB1RSTR_GPIOBRST | RCC_AHB1RSTR_GPIOARST | RCC_AHB1RSTR_GPIOCRST;
+	//Reset USART2:
+		RCC_APB1RSTR= RCC_APB1RSTR_USART2RST;
+	//Reset TIM:
+		 RCC_APB1RSTR=RCC_APB1RSTR_TIM2RST | RCC_APB1RSTR_TIM3RST | RCC_APB1RSTR_TIM4RST | RCC_APB1RSTR_TIM5RST ;
+
+	//Reset TIM1:
+		 RCC_APB2RSTR=RCC_APB2RSTR_TIM1RST;
+
+	//Reset SYSCFGRST:
+		RCC_APB2RSTR= RCC_APB2RSTR_SYSCFGRST;
+	//Reset ADC:
+		RCC_APB2RSTR= RCC_APB2RSTR_ADC1RST;
+}
+
+
+
 int main(void)
 {
+	init();
+	//Reset RCC
+	RCC->CIR=RCC_CIR_CSSC
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_GPIOCEN;
 	RCC->AHB1ENR|=1;
 	//PA5 alternate function(01)
