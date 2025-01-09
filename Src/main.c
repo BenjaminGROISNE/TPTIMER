@@ -7,10 +7,12 @@
  ******************************************************************************
  */
 
-#include "main.h"
 #include <stdint.h>
 #include "stm32f4xx.h"
-
+#include "rcc.h"
+#include "usart.h"
+#include "tim.h"
+#include "gpio.h"
 void TIM2_init_pwm(void){
 	TIM2->PSC=SystemCoreClock/100000 - 1;
 	TIM2->ARR= 100000 /1000 -1;
@@ -24,14 +26,16 @@ void TIM2_set_pwm(uint32_t duty){
 __WFI();
 }
 
-void init(){
+void initMain(){
+
+	initRCC();
 	//Reset GPIO
 	RCC_AHB1RSTR =  RCC_AHB1RSTR_GPIOBRST | RCC_AHB1RSTR_GPIOARST | RCC_AHB1RSTR_GPIOCRST;
 	//Reset USART2:
 		RCC_APB1RSTR= RCC_APB1RSTR_USART2RST;
 	//Reset TIM:
 		 RCC_APB1RSTR=RCC_APB1RSTR_TIM2RST | RCC_APB1RSTR_TIM3RST | RCC_APB1RSTR_TIM4RST | RCC_APB1RSTR_TIM5RST ;
-
+		 RCC_APB1
 	//Reset TIM1:
 		 RCC_APB2RSTR=RCC_APB2RSTR_TIM1RST;
 
@@ -46,7 +50,11 @@ void init(){
 int main(void)
 {
 	init();
+	HAL_Init();
+	SystemClock_Config();
+	uint32_t pclk1 = HAL_RCC_GetPCLK1Freq();
 	//Reset RCC
+
 	RCC->CIR=RCC_CIR_CSSC
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_GPIOCEN;
 	RCC->AHB1ENR|=1;
