@@ -9,5 +9,6 @@
 #define ADC_H_
 #include "stm32f4xx.h"
 
+void initADC();
 
 #endif /* ADC_H_ */

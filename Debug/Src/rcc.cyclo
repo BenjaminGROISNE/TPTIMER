@@ -1,0 +1,3 @@
+../Src/rcc.c:11:6:initRCC	1
+../Src/rcc.c:19:6:reset	1
+../Src/rcc.c:37:6:enable	1

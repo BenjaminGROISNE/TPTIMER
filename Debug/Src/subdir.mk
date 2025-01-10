@@ -5,25 +5,46 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Src/adc.c \
+../Src/gpio.c \
 ../Src/main.c \
+../Src/nvic.c \
+../Src/rcc.c \
 ../Src/stm32f4xx_it.c \
 ../Src/syscalls.c \
+../Src/syscfg.c \
 ../Src/sysmem.c \
-../Src/system_stm32f4xx.c 
+../Src/system_stm32f4xx.c \
+../Src/tim.c \
+../Src/usart.c 
 
 OBJS += \
+./Src/adc.o \
+./Src/gpio.o \
 ./Src/main.o \
+./Src/nvic.o \
+./Src/rcc.o \
 ./Src/stm32f4xx_it.o \
 ./Src/syscalls.o \
+./Src/syscfg.o \
 ./Src/sysmem.o \
-./Src/system_stm32f4xx.o 
+./Src/system_stm32f4xx.o \
+./Src/tim.o \
+./Src/usart.o 
 
 C_DEPS += \
+./Src/adc.d \
+./Src/gpio.d \
 ./Src/main.d \
+./Src/nvic.d \
+./Src/rcc.d \
 ./Src/stm32f4xx_it.d \
 ./Src/syscalls.d \
+./Src/syscfg.d \
 ./Src/sysmem.d \
-./Src/system_stm32f4xx.d 
+./Src/system_stm32f4xx.d \
+./Src/tim.d \
+./Src/usart.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -33,7 +54,7 @@ Src/%.o Src/%.su Src/%.cyclo: ../Src/%.c Src/subdir.mk
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/stm32f4xx_it.cyclo ./Src/stm32f4xx_it.d ./Src/stm32f4xx_it.o ./Src/stm32f4xx_it.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/system_stm32f4xx.cyclo ./Src/system_stm32f4xx.d ./Src/system_stm32f4xx.o ./Src/system_stm32f4xx.su
+	-$(RM) ./Src/adc.cyclo ./Src/adc.d ./Src/adc.o ./Src/adc.su ./Src/gpio.cyclo ./Src/gpio.d ./Src/gpio.o ./Src/gpio.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/nvic.cyclo ./Src/nvic.d ./Src/nvic.o ./Src/nvic.su ./Src/rcc.cyclo ./Src/rcc.d ./Src/rcc.o ./Src/rcc.su ./Src/stm32f4xx_it.cyclo ./Src/stm32f4xx_it.d ./Src/stm32f4xx_it.o ./Src/stm32f4xx_it.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/syscfg.cyclo ./Src/syscfg.d ./Src/syscfg.o ./Src/syscfg.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/system_stm32f4xx.cyclo ./Src/system_stm32f4xx.d ./Src/system_stm32f4xx.o ./Src/system_stm32f4xx.su ./Src/tim.cyclo ./Src/tim.d ./Src/tim.o ./Src/tim.su ./Src/usart.cyclo ./Src/usart.d ./Src/usart.o ./Src/usart.su
 
 .PHONY: clean-Src
 

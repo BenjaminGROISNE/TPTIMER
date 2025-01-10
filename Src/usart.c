@@ -6,10 +6,28 @@
  */
 #include "usart.h"
 
+uint16_t Baud_Rate;
+volatile uint8_t rxBuffer[RX_BUFFER_SIZE];
+volatile uint8_t rxSavedBuffer[RX_BUFFER_SIZE];
+volatile uint8_t txBuffer[TX_BUFFER_SIZE];
+uint8_t rxIndex;
+volatile uint8_t txIndex;
+volatile uint8_t txLength;
+int bufferFull;
+
 
 void initUSART(){
 
-	initCR1();
+	us2->CR1|=USART_CR1_UE;//ENABLE USART
+	us2->CR1|=USART_CR1_RXNEIE; //enable RXNE interrupt only once
+	us2->CR1|=USART_CR1_TE;//enable transmitter
+	us2->CR1|=USART_CR1_RE;//enable Receiver
+
+	rxIndex=0;
+	txIndex=0;
+	txLength=0;
+	bufferFull=0;
+
 	setBaudRate();
 }
 
@@ -31,17 +49,21 @@ int __io_getchar(void){
 
 
 //Adds one char in Putty terminal
-void __io_putchar(int ch){
+int __io_putchar(int ch){
 	us2->DR = ch;// transmit char
 	us2->SR&= ~USART_SR_TXE;
+	return ch;
 }
 
 //Adds a sequence of chars in Putty Terminal
-void USART2_Transmit(uint8_t * data,int len){
+void USART2_Transmit(uint8_t* data,int len){
+
 	resetString(txBuffer,txLength);
-	txBuffer=data;
+	int minSize=TX_BUFFER_SIZE;
+	if(len<TX_BUFFER_SIZE)minSize=len;
+	memcpy(txBuffer,data,minSize);
 	txIndex=0;
-	txLength=len;
+	txLength=minSize;
 	us2->CR1|= USART_CR1_TXEIE;
 }
 
@@ -64,19 +86,8 @@ void USART2_IRQHandler() {
         	__io_getchar();
         }
         else{
-        	rxSavedBuffer=rxBuffer;
+        	memcpy(rxSavedBuffer,rxBuffer,RX_BUFFER_SIZE);
         	bufferFull=1;
         }
     }
-}
-
-void resetString(char word[]){
-	memset(word, 0, sizeof(word));
-}
-
-void setCR1(){
-	us2->CR1|=USART_CR1_UE;//ENABLE USART
-	us2->CR1|=USART_CR1_RXNEIE; //enable RXNE interrupt only once
-	us2->CR1|=USART_CR1_TE;//enable transmitter
-	us2->CR1|=USART_CR1_RE;//enable Receiver
 }

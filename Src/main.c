@@ -15,6 +15,7 @@
 #include "gpio.h"
 #include "syscfg.h"
 #include "nvic.h"
+#include "adc.h"
 void TIM2_init_pwm(void){
 	TIM2->PSC=SystemCoreClock/100000 - 1;
 	TIM2->ARR= 100000 /1000 -1;

@@ -7,6 +7,7 @@
 #ifndef RCC_H_
 #define RCC_H_
 #include "stm32f4xx.h"
+
 void initRCC();
 void reset();
 void enable();

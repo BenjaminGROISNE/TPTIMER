@@ -9,8 +9,8 @@
 #define GPIO_H_
 #include "stm32f4xx.h"
 
-GPIO_TypeDef* pa =GPIOA;
-GPIO_TypeDef* pb =GPIOB;
+#define pa GPIOA
+#define pb GPIOB
 
 void initGPIO();
 
