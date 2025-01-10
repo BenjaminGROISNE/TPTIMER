@@ -13,6 +13,8 @@
 #include "usart.h"
 #include "tim.h"
 #include "gpio.h"
+#include "syscfg.h"
+#include "nvic.h"
 void TIM2_init_pwm(void){
 	TIM2->PSC=SystemCoreClock/100000 - 1;
 	TIM2->ARR= 100000 /1000 -1;
@@ -27,45 +29,21 @@ __WFI();
 }
 
 void initMain(){
-
-	initRCC();
-	//Reset GPIO
-	RCC_AHB1RSTR =  RCC_AHB1RSTR_GPIOBRST | RCC_AHB1RSTR_GPIOARST | RCC_AHB1RSTR_GPIOCRST;
-	//Reset USART2:
-		RCC_APB1RSTR= RCC_APB1RSTR_USART2RST;
-	//Reset TIM:
-		 RCC_APB1RSTR=RCC_APB1RSTR_TIM2RST | RCC_APB1RSTR_TIM3RST | RCC_APB1RSTR_TIM4RST | RCC_APB1RSTR_TIM5RST ;
-		 RCC_APB1
-	//Reset TIM1:
-		 RCC_APB2RSTR=RCC_APB2RSTR_TIM1RST;
-
-	//Reset SYSCFGRST:
-		RCC_APB2RSTR= RCC_APB2RSTR_SYSCFGRST;
-	//Reset ADC:
-		RCC_APB2RSTR= RCC_APB2RSTR_ADC1RST;
+	initRCC();//done
+	initSYSCFG();//not to do
+	initGPIO();//done
+	initNVIC();//done
+	initTIM();
+	initUSART();// 3/4 done
+	initADC();
 }
 
 
 
 int main(void)
 {
-	init();
-	HAL_Init();
-	SystemClock_Config();
-	uint32_t pclk1 = HAL_RCC_GetPCLK1Freq();
-	//Reset RCC
+	initMain();
 
-	RCC->CIR=RCC_CIR_CSSC
-	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_GPIOCEN;
-	RCC->AHB1ENR|=1;
-	//PA5 alternate function(01)
-	GPIOA->MODER &=~(1<<10);//set 0
-	GPIOA->MODER |=1<<11;
-	// set afr to af01(0001);
-	GPIOA->AFR[0]&=~(0xF<<20);
-	GPIOA->AFR[0]|=1<<20;
-	TIM2_init_pwm();
-	TIM2_set_pwm(5);
 }
 
 
