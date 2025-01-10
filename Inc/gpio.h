@@ -11,7 +11,7 @@
 
 #define pa GPIOA
 #define pb GPIOB
-
+#define pc GPIOC
 void initGPIO();
 
 #endif /* GPIO_H_ */

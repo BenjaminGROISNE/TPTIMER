@@ -10,6 +10,6 @@
 #include "stm32f4xx.h"
 
 void initTIM();
-
+void TIM2_init_pwm(void);
 
 #endif /* TIM_H_ */

@@ -1,2 +1,4 @@
-../Src/tim.c:13:6:TIM2_IRQHandler	2
-../Src/tim.c:21:6:initTIM	1
+../Src/tim.c:13:6:TIM2_init_pwm	1
+../Src/tim.c:50:6:TIM2_set_pwm	2
+../Src/tim.c:59:6:TIM2_IRQHandler	3
+../Src/tim.c:72:6:initTIM	1

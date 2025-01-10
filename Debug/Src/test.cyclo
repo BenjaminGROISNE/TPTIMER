@@ -1,0 +1,7 @@
+../Src/test.c:21:6:__io_putchartest	2
+../Src/test.c:29:7:USART2_Transmittest	2
+../Src/test.c:37:6:__io_getchartest	2
+../Src/test.c:44:7:wait	2
+../Src/test.c:49:10:USART2_Receivetest	7
+../Src/test.c:74:6:resetStringtest	2
+../Src/test.c:86:5:func	2
