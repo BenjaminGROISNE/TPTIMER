@@ -1,76 +1,46 @@
+#include "stm32f4xx.h"
+#include "tim.h"
 /*
- * tim.c
+ * tim2.c
  *
- *  Created on: Jan 9, 2025
- *      Author: benjamin
+ *  Created on: Dec 30, 2024
+ *      Author: nathan & benjamin
  */
 
-#include "tim.h"
+void TIM2_init_pwm(void)
+{
+	//We begin With SystemCoreClock at 16 Mhz
+	//We want a final frequency of 100 Hz
+	//So we want 100 Hz = (16 000 000 / PSC) / ARR
+	//So either (PSC:16 | ARR:10000)
+	//or (PSC:160 | ARR:1000) or (PSC:1600 | ARR:100) or (PSC:1600 | ARR:100) ...
 
-TIM_TypeDef * tim2=TIM2;
+	    TIM2->PSC = 160 - 1;
+	    TIM2->ARR = 1000 - 1;
+	    TIM2->CCR1 = 0;
+	    TIM2->CCMR1 |= 3 <<5;  // PWM mode 1
+	    TIM2->CCER |= TIM_CCER_CC1E;   // Activer TIM2 CH1
+	    TIM2->CCER &= ~TIM_CCER_CC1P;   // OC1 active high
 
-
-void TIM2_init_pwm(void){
-	    TIM2->PSC = 160 - 1;      // Prescaler (16 MHz / 16000 = 1 kHz)
-		TIM2->ARR = 1000 - 1;     // Période (100 Hz)
-		TIM2->CCR1 = 0;           // Rapport cyclique initial
-	    //we want a 10 ms cycle
-	    //So a frequency of 100 Hz
-	    // CNT input clock (desired counter clock = 100kHz)
-	    uint32_t Frequency = SystemCoreClock;
-	    //1 second to count to 16M with prescaler equal to 1;
-	    // Prescaler 100kHz
-
-
-	tim2->CR1=0;
-	tim2->CR2=0;
-	tim2->CR1&=~TIM_CR1_DIR;// Upcounting Direction
-	tim2->CR1|= TIM_CR1_CEN;//Counter enable
-	tim2->CR2|=TIM_CR2_MMS_0;//Update mode TRGO activated everytime ARR overflows
-
-	//Note: The clock of the slave timer and ADC must be enabled prior to receiving events from
-	//the master timer, and must not be changed on-the-fly while triggers are received from
-//	the master timer.
-	tim2->CR2&= ~TIM_CR2_TI1S;//Select TI1 for CH1;
-
-	tim2->DIER|=TIM_DIER_CC1IE;// CC1 interrupt enable
-
-	tim2->CCMR1|=6<<4;//PWM MODE 1 channel 1 active when CNT < CCR1
-
-	tim2->CCER|=TIM_CCER_CC1E;//Activate OC1
-
-	tim2->CCER&=~TIM_CCER_CC1P;//Active High
-
-	tim2->DIER|=TIM_DIER_UIE;//Update Interrupt enable UIF flag
-
-
+	    TIM2->CR2 |= TIM_CR2_MMS_1;  // Activate TRGO
+	    TIM2->CR1 |= TIM_CR1_CEN;      // Activate TIM2
 }
 
 
-void TIM2_set_pwm(uint32_t duty) {
-    if (duty > 999) {
-        duty = 999; // Ensure duty cycle is within valid range
+//change Capture Compare register 1 for output mode PWM
+void TIM2_set_pwm(uint16_t duty)
+{
+	if(duty<999)
+	{
+		tim2->CCR1 = duty; // Set duty Cycle
+	}
+}
+
+//TIM2 IRQHandler
+//Nothing to do TRGO already activated whenever there's an auto reload
+void TIM2_IRQHandler(void) {
+    if (TIM2->SR & TIM_SR_UIF) {
+        TIM2->SR &= ~TIM_SR_UIF;
+
     }
-
-    // Set the capture/compare register value
-    TIM2->CCR1 = duty;
-}
-
-void TIM2_IRQHandler(){
-
-	//UIF useful ?
-	if(tim2->SR & TIM_SR_CC1IF){
-
-		tim2->SR&=~TIM_SR_CC1IF;
-	}
-	if (tim2->SR & TIM_SR_UIF) {       // Vérifier l'overflow
-		tim2->SR &= ~TIM_SR_UIF;       // Réinitialiser le drapeau d'interruption
-
-	}
-}
-
-void initTIM(){
-
-	TIM2_init_pwm();
-
 }

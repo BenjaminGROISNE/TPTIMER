@@ -2,15 +2,12 @@
  * rcc.h
  *
  *  Created on: Jan 4, 2025
- *      Author: benjamin
+ *      Author: nathan & benjamin
  */
 #ifndef RCC_H_
 #define RCC_H_
-#include "stm32f4xx.h"
+#include "stm32f401xe.h"
 
 void initRCC();
-void reset();
-void enable();
-
 
 #endif /* RCC_H_ */

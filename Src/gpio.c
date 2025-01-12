@@ -7,8 +7,8 @@
 #include "gpio.h"
 
 void initGPIO(){
-	//One pin for adc,and one for TIM2
-	//PB0 for adc ; PA5 for tim2 ;
+	//One pin for adc, one for TIM2 and two for USART2
+	//PB0 for adc ; PA5 for tim2 ;PA2-PA3 for USART2
 
 	//Port mode Register
 	//analog mode for adc (11)
@@ -38,9 +38,10 @@ void initGPIO(){
 	//Alternate function low Register
 	pa->AFR[0] &= ~GPIO_AFRL_AFSEL5_0;  //AF01 alternate function TIM2_CH1 (0001)
 	pa->AFR[0] |= GPIO_AFRL_AFSEL5_0;
+
 	//AF07 for PA2 and PA3
 	pa->AFR[0] &= ~0xF<<8;
 	pa->AFR[0] &= ~0xF<<12;
-	pa->AFR[0] |= 7<<8;
-	pa->AFR[0] |= 7<<12;
+	pa->AFR[0] |= 7<<8;	//TX for PA2
+	pa->AFR[0] |= 7<<12;//RX for PA3
 }

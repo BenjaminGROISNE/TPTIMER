@@ -60,7 +60,7 @@ main-build: STM32F401.elf secondary-outputs
 
 # Tool invocations
 STM32F401.elf STM32F401.map: $(OBJS) $(USER_OBJS) /home/benjamin/Documents/dev/TPSTM32/TPTIMER/STM32F401RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STM32F401.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/benjamin/Documents/dev/TPSTM32/TPTIMER/STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F401.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "STM32F401.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/benjamin/Documents/dev/TPSTM32/TPTIMER/STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM32F401.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

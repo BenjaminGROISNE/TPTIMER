@@ -7,11 +7,10 @@
 
 #ifndef GPIO_H_
 #define GPIO_H_
-#include "stm32f4xx.h"
+#include "stm32f401xe.h"
 
 #define pa GPIOA
 #define pb GPIOB
-#define pc GPIOC
 void initGPIO();
 
 #endif /* GPIO_H_ */

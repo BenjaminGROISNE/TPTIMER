@@ -1,7 +1,5 @@
-../Src/usart.c:20:6:initUSART	1
-../Src/usart.c:36:6:setBaudRate	1
-../Src/usart.c:41:6:resetString	1
-../Src/usart.c:45:5:__io_getchar	2
-../Src/usart.c:53:5:__io_putchar	2
-../Src/usart.c:62:6:USART2_Transmit	3
-../Src/usart.c:77:6:USART2_IRQHandler	5
+../Src/usart.c:16:6:initUSART	1
+../Src/usart.c:33:6:setBaudRate	1
+../Src/usart.c:40:5:__io_putchar	2
+../Src/usart.c:50:6:USART2_Transmit	3
+../Src/usart.c:65:6:USART2_IRQHandler	4

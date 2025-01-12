@@ -1,1 +1,9 @@
-../Src/adc.c:11:6:initADC	1
+../Src/adc.c:25:6:initADC	1
+../Src/adc.c:43:7:calculate_L	2
+../Src/adc.c:56:7:DR_To_Temp	1
+../Src/adc.c:61:7:DR_To_Volts	1
+../Src/adc.c:66:10:ADC_read	2
+../Src/adc.c:72:6:showTemp	1
+../Src/adc.c:82:6:showVoltage	1
+../Src/adc.c:92:6:showLuminance	1
+../Src/adc.c:100:6:ADC_IRQHandler	5
